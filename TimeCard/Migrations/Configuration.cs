@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace TimeCard.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<TimeCard.Classes.TimeCardDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<TimeCard.TimeCardEntityModel>
     {
         public Configuration()
         {

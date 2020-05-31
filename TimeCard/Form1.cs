@@ -16,5 +16,11 @@ namespace TimeCard
         {
             InitializeComponent();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var viewTimeSheets = new ViewTimeSheetForm();
+            viewTimeSheets.Show();
+        }
     }
 }
