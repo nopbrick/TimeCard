@@ -13,6 +13,7 @@ namespace TimeCard
     {
         private List<string> empl;
         private List<Employee_Activities> _activities;
+        private string comboBoxText;
         async Task<List<string>> getEmployees()
         {
            using var context = new TimeCardEntityModel();
@@ -25,7 +26,7 @@ namespace TimeCard
             try
             {
                 return await context.Employee_Activities
-                    .Where(x => x.Employee.FirstName + " " + x.Employee.LastName == comboBox1.Text).ToListAsync();
+                    .Where(x => x.Employee.FirstName + " " + x.Employee.LastName == comboBoxText).ToListAsync();
             }
             catch (NullReferenceException e)
             {
@@ -42,15 +43,41 @@ namespace TimeCard
             Console.WriteLine();
         }
 
+        private void getControlText()
+        {
+            if (comboBox1.InvokeRequired)
+            {
+                MethodInvoker AssignMethodControl = new MethodInvoker(getControlText);
+                comboBox1.Invoke(AssignMethodControl);
+            }
+            else
+            {
+                comboBoxText = comboBox1.Text;
+            }
+        }
+
+        private void SetComboBox()
+        {
+            if (comboBox1.InvokeRequired)
+            {
+                MethodInvoker AssignMethodControl = new MethodInvoker(SetComboBox);
+                comboBox1.Invoke(AssignMethodControl);
+            }
+            else
+            {
+                foreach (var item in empl)
+                {
+                    comboBox1.Items.Add(item);
+                }
+            }
+        }
+
         public async void getDataFromDb()
         {
             empl = await getEmployees();
-            await Task.Run(getEmployeeActivities);
+            //await Task.Run(getEmployeeActivities);
             _activities = await getEmployeeActivities();
-            foreach (var item in empl)
-            {
-                comboBox1.Items.Add(item);
-            }
+            SetComboBox();
         }
 
         private void generateTimeSheet(TableLayoutPanel tableLayoutPanel, List<Employee_Activities> employeeActivities)
@@ -85,8 +112,16 @@ namespace TimeCard
 
         private void getTimeSheetButton_Click(object sender, EventArgs e)
         {
+            Task.Run(getEmployeeActivities);
             generateTimeSheet(tableLayoutPanel1, _activities);
             tableLayoutPanel1.Show();
+        }
+
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            getControlText();
+            
         }
     }
 }
