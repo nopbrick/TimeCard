@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Configuration;
@@ -25,8 +26,23 @@ namespace TimeCard
             using var context = new TimeCardEntityModel();
             try
             {
+                /*return await from p in context.Employee_Activities
+                    where p.Employee.FirstName + " " + p.Employee.LastName == comboBoxText
+                    select new TempEmployeeActivities() { };*/
+
+                /*return await context.Employee_Activities
+                    .Where(x => x.Employee.FirstName + " " + x.Employee.LastName == comboBoxText)
+                    .Select(c => new TempEmployeeActivities() { });*/
+                /*return await (from ea in context.Set<Employee_Activities>()
+                        where (ea.Employee.FirstName + " " + ea.Employee.LastName) == comboBoxText
+                        select new { }).ToListAsync()
+                    .Select(x => new Employee_Activities { });*/
                 return await context.Employee_Activities
-                    .Where(x => x.Employee.FirstName + " " + x.Employee.LastName == comboBoxText).ToListAsync();
+                    .Where(x => (x.Employee.FirstName + " " + x.Employee.LastName) == comboBoxText).ToListAsync();
+                /*return await context.Employee_Activities
+                    .Where(x => (x.Employee.FirstName + " " + x.Employee.LastName) == comboBoxText)
+                    .Select(x => new {}).ToListAsync()
+                    .Select(c => new Employee_Activities{});*/
             }
             catch (NullReferenceException e)
             {
@@ -76,8 +92,9 @@ namespace TimeCard
         {
             empl = await getEmployees();
             //await Task.Run(getEmployeeActivities);
-            _activities = await getEmployeeActivities();
             SetComboBox();
+            //_activities = await getEmployeeActivities();
+            
         }
 
         private void generateTimeSheet(TableLayoutPanel tableLayoutPanel, List<Employee_Activities> employeeActivities)
@@ -118,10 +135,10 @@ namespace TimeCard
         }
 
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private async void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             getControlText();
-            
+            _activities = await getEmployeeActivities();
         }
     }
 }

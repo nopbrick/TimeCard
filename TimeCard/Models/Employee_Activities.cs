@@ -6,6 +6,8 @@ namespace TimeCard
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    [NotMapped] 
+    public partial class TempEmployeeActivities : Employee_Activities {} 
     public partial class Employee_Activities
     {
         [Key]
