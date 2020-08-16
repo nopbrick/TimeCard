@@ -88,7 +88,7 @@ namespace TimeCard
                 System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(52, 201);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(800, 306);
+            this.dataGridView1.Size = new System.Drawing.Size(521, 268);
             this.dataGridView1.TabIndex = 7;
             // 
             // ViewTimeSheetForm

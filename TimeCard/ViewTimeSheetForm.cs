@@ -16,6 +16,10 @@ namespace TimeCard
         private List<string> empl;
         private List<Employee_Activities> _activities;
         private string comboBoxText;
+
+        //public DataGetter dg;
+        
+        
         async Task<List<string>> getEmployees()
         {
            using var context = new TimeCardEntityModel();
@@ -92,12 +96,14 @@ namespace TimeCard
                 tbl.Rows.Add(item.ActivityComment, item.ActivityDate, item.ActivityTime);
             }
             dataGridView1.DataSource = tbl;
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells; 
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
 
         private async void getTimeSheetButton_Click(object sender, EventArgs e)
         {
-            _activities = await Task.Run(getEmployeeActivities);
+            _activities = await getEmployeeActivities();
             generateTimeSheet(_activities);
         }
 

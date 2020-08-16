@@ -23,6 +23,11 @@ namespace TimeCard
         [Required]
         [StringLength(50)]
         public string LastName { get; set; }
+        
+        public string FullName
+        {
+            get { return FirstName + " " + LastName; }
+        }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee_Activities> Employee_Activities { get; set; }

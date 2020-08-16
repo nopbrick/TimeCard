@@ -22,5 +22,11 @@ namespace TimeCard
             var viewTimeSheets = new ViewTimeSheetForm();
             viewTimeSheets.Show();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var insertHours = new InsertHoursForm();
+            insertHours.Show();
+        }
     }
 }
