@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
-using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,35 +12,16 @@ namespace TimeCard
         private List<Employee_Activities> _activities;
         private string comboBoxText;
         private int employeeID;
-        //private Employee_Activities _activity;
         private (int, DateTime, int, string) t;
         
-        /*async Task<List<string>> getEmployees()
-        {
-            using var context = new TimeCardEntityModel();
-            return await context.Employees.Select(x => x.FirstName + " " +  x.LastName).ToListAsync();
-        }*/
+        
 
         async Task<List<Employee>> getEmployees()
         {
             using var context = new TimeCardEntityModel();
             return await context.Employees.ToListAsync();
         }
-
-        /*async Task<List<Employee_Activities>> getEmployeeActivities()
-        {
-            using var context = new TimeCardEntityModel();
-            try
-            {
-                return await context.Employee_Activities
-                    .Where(x => (x.Employee.FirstName + " " + x.Employee.LastName) == comboBoxText).ToListAsync();
-            }
-            catch (NullReferenceException e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }*/
+        
         
         #region GETTING DATA FROM CONTROLS
         private delegate int getIDofEmployeeDelegate();
@@ -67,8 +45,6 @@ namespace TimeCard
             if (control.InvokeRequired)
             {
                 control.Invoke(new ControlDelegate(getControlText), new object[] {control.Text});
-                /*MethodInvoker AssignMethodControl = new MethodInvoker(getControlText);
-                comboBox1.Invoke(AssignMethodControl);*/
             }
             else
             {
@@ -101,7 +77,6 @@ namespace TimeCard
             using var context = new TimeCardEntityModel();
             var act = context.Set<Employee_Activities>();
             act.Add(activities);
-            //context.Employee_Activities.Add(activities);
             context.SaveChanges();
             Console.WriteLine();
         }
@@ -151,7 +126,7 @@ namespace TimeCard
             var ea = new Employee_Activities();
             ea.EmployeeID = getEmployeeIDFromComboBox();
             ea.ActivityDate = GetDateTimePickerValue(dateTimePicker2);
-            ea.ActivityTime = Convert.ToInt32(getControlText(textBox2));
+            ea.ActivityTime = Convert.ToDouble(getControlText(textBox2));
             ea.ActivityComment = getControlText(textBox1);
 
             return ea;

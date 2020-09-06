@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.SqlClient;
 using System.Windows.Forms;
-using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -16,9 +13,6 @@ namespace TimeCard
         private List<string> empl;
         private List<Employee_Activities> _activities;
         private string comboBoxText;
-
-        //public DataGetter dg;
-        
         
         async Task<List<string>> getEmployees()
         {
@@ -89,7 +83,7 @@ namespace TimeCard
             DataTable tbl = new DataTable();
             tbl.Columns.Add("Activity", typeof(string));
             tbl.Columns.Add("Date", typeof(DateTime));
-            tbl.Columns.Add("Duration", typeof(int));
+            tbl.Columns.Add("Duration", typeof(double));
 
             foreach (var item in employeeActivities)
             {

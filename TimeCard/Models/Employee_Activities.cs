@@ -19,7 +19,7 @@ namespace TimeCard
 
         public DateTime ActivityDate { get; set; }
 
-        public int ActivityTime { get; set; }
+        public double ActivityTime { get; set; }
 
         public int MasterSheetID { get; set; }
 
