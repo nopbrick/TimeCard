@@ -74,7 +74,6 @@ namespace TimeCard
             var act = context.Set<Employee_Activities>();
             act.Add(activities);
             context.SaveChanges();
-            Console.WriteLine();
         }
 
         
@@ -117,7 +116,7 @@ namespace TimeCard
             GetDateTimePickerValue(dateTimePicker2);
         }
 
-        public Employee_Activities AssignObject()
+        public Employee_Activities ReturnEntity()
         {
             var ea = new Employee_Activities();
             ea.EmployeeID = getEmployeeIDFromComboBox();
@@ -130,7 +129,17 @@ namespace TimeCard
 
         private void button1_Click(object sender, EventArgs e)
         {
-            InsertData(AssignObject());
+            try
+            {
+                InsertData(ReturnEntity());
+                MessageBox.Show("Activity posted successfully", "Insert result", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show($"Could not post the activity{Environment.NewLine}{exception.Message}", "Insert result", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
     }
 }
