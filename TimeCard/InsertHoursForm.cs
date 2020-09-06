@@ -9,12 +9,8 @@ namespace TimeCard
     public partial class InsertHoursForm : Form
     {
         private List<Employee> empl;
-        private List<Employee_Activities> _activities;
-        private string comboBoxText;
         private int employeeID;
-        private (int, DateTime, int, string) t;
-        
-        
+
 
         async Task<List<Employee>> getEmployees()
         {
