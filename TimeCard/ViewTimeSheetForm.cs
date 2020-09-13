@@ -13,6 +13,7 @@ namespace TimeCard
         private List<string> empl;
         private List<Employee_Activities> _activities;
         private string comboBoxText;
+        private DateTime datepickerdate;
         
         async Task<List<string>> getEmployees()
         {
@@ -20,13 +21,13 @@ namespace TimeCard
            return await context.Employees.Select(x => x.FirstName + " " +  x.LastName).ToListAsync();
         }
 
-        async Task<List<Employee_Activities>> getEmployeeActivities()
+        async Task<List<Employee_Activities>> getEmployeeActivities(DateTime dateTime)
         {
             using var context = new TimeCardEntityModel();
             try
             {
                 return await context.Employee_Activities
-                    .Where(x => (x.Employee.FirstName + " " + x.Employee.LastName) == comboBoxText).ToListAsync();
+                    .Where(x => (x.Employee.FirstName + " " + x.Employee.LastName) == comboBoxText && x.ActivityDate.Day == dateTime.Day).ToListAsync();
             }
             catch (NullReferenceException e)
             {
@@ -53,6 +54,20 @@ namespace TimeCard
             else
             {
                 comboBoxText = comboBox1.Text;
+            }
+        }
+        
+        private DateTime getDateFromDatePicker()
+        {
+            if (dateTimePicker1.InvokeRequired)
+            {
+                MethodInvoker AssignMethodControl = new MethodInvoker(getControlText);
+                comboBox1.Invoke(AssignMethodControl);
+                return DateTime.Today;
+            }
+            else
+            {
+                return dateTimePicker1.Value;
             }
         }
 
@@ -97,7 +112,8 @@ namespace TimeCard
 
         private async void getTimeSheetButton_Click(object sender, EventArgs e)
         {
-            _activities = await getEmployeeActivities();
+            datepickerdate = getDateFromDatePicker();
+            _activities = await getEmployeeActivities(datepickerdate);
             generateTimeSheet(_activities);
         }
 
